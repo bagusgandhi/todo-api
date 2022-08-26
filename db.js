@@ -1,12 +1,12 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-require('dotenv').config();
+// require('dotenv').config();
 const Sequelize = require('sequelize');
 
 const dbname = process.env.MYSQL_DBNAME;
 const dbuser = process.env.MYSQL_USER;
 const dbpass = process.env.MYSQL_PASSWORD;
 const dbhost = process.env.MYSQL_HOST;
-const dbport = process.env.MYSQL_PORT;
+const dbport = process.env.MYSQL_PORT || 3306;
 
 const sequelize = new Sequelize(dbname, dbuser, dbpass, {
   host: dbhost,
