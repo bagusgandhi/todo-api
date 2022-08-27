@@ -5,7 +5,7 @@ const AppError = require('../helpers/appError');
 const Activity = db.activity;
 
 exports.getAllActivity = catchAsync(async (req, res, next) => {
-  const allActivity = await Activity.findAll();
+  const allActivity = await Activity.findAll({ limit: 5 });
   return res.json({
     status: 'Success',
     message: 'Success',
@@ -23,18 +23,22 @@ exports.getActivityById = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.createActivity = catchAsync(async (req, res, next) => {
-  const newActivity = await Activity.create({
-    title: req.body.title,
-    email: req.body.email,
-  });
-  if (!newActivity) return next(new AppError('title cannot be null', 400));
-  return res.status(201).json({
-    status: 'Success',
-    message: 'Success',
-    data: newActivity,
-  });
-});
+exports.createActivity = async (req, res, next) => {
+  try {
+    const newActivity = await Activity.create({
+      title: req.body.title,
+      email: req.body.email,
+    });
+
+    return res.status(201).json({
+      status: 'Success',
+      message: 'Success',
+      data: newActivity,
+    });
+  } catch (err) {
+    return next(new AppError('title cannot be null', 400));
+  }
+};
 
 exports.deleteActivity = catchAsync(async (req, res, next) => {
   const existActivity = await Activity.destroy({
@@ -42,7 +46,7 @@ exports.deleteActivity = catchAsync(async (req, res, next) => {
       id: req.params.id,
     },
   });
-  if (!existActivity) return next(new AppError(`No record found for id ${req.params.id}`, 404));
+  if (!existActivity) return next(new AppError(`Activity with ID ${req.params.id} Not Found`, 404));
   return res.json({
     status: 'Success',
     message: 'Success',

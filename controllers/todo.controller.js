@@ -37,30 +37,36 @@ exports.getTodoById = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.createTodo = catchAsync(async (req, res, next) => {
-  const newTodo = await Todo.create({
-    title: req.body.title,
-    activity_group_id: req.body.activity_group_id,
-  });
+exports.createTodo = async (req, res, next) => {
+  try {
+    const newTodo = await Todo.create({
+      title: req.body.title,
+      activity_group_id: req.body.activity_group_id,
+    });
 
-  const {
-    id, title, activity_group_id, priority, created_at, updated_at, is_active,
-  } = newTodo;
+    const {
+      id, title, activity_group_id, priority, created_at, updated_at, is_active,
+    } = newTodo;
 
-  return res.status(201).json({
-    status: 'Success',
-    message: 'Success',
-    data: {
-      id,
-      title,
-      activity_group_id,
-      priority,
-      created_at,
-      updated_at,
-      is_active: !!Number(is_active),
-    },
-  });
-});
+    return res.status(201).json({
+      status: 'Success',
+      message: 'Success',
+      data: {
+        id,
+        title,
+        activity_group_id,
+        priority,
+        created_at,
+        updated_at,
+        is_active: !!Number(is_active),
+      },
+    });
+  } catch (err) {
+    if (!req.body.title) return next(new AppError('title cannot be null', 400));
+    if (!req.body.activity_group_id) return next(new AppError('activity_group_id cannot be null', 400));
+    return next(new AppError(err.message, 400));
+  }
+};
 
 exports.deleteTodo = catchAsync(async (req, res, next) => {
   const existTodo = await Todo.destroy({
