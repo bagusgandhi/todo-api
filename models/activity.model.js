@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Activity = sequelize.define(
-    'activity_group',
+    'activity',
     {
       email: {
         type: DataTypes.STRING,
@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       paranoid: true,
-      freezeTableName: true,
       createdAt: 'created_at',
       updatedAt: 'updated_at',
       deletedAt: 'deleted_at',

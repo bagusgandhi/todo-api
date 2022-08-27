@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Todo = sequelize.define(
-    'todo_item',
+    'todo',
     {
       title: {
         type: DataTypes.STRING,
@@ -21,7 +21,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       paranoid: true,
-      freezeTableName: true,
       createdAt: 'created_at',
       updatedAt: 'updated_at',
       deletedAt: 'deleted_at',
