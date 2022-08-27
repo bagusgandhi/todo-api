@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-// require('dotenv').config();
+require('dotenv').config();
 const Sequelize = require('sequelize');
 
 const dbname = process.env.MYSQL_DBNAME;

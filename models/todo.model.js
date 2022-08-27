@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
       is_active: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
+        get() {
+          const rawValue = this.getDataValue('is_active');
+          return Number(rawValue).toString();
+        },
       },
       priority: {
         type: DataTypes.STRING,

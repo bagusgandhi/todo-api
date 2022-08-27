@@ -43,10 +43,22 @@ exports.createTodo = catchAsync(async (req, res, next) => {
     activity_group_id: req.body.activity_group_id,
   });
 
+  const {
+    id, title, activity_group_id, priority, created_at, updated_at, is_active,
+  } = newTodo;
+
   return res.status(201).json({
     status: 'Success',
     message: 'Success',
-    data: newTodo,
+    data: {
+      id,
+      title,
+      activity_group_id,
+      priority,
+      created_at,
+      updated_at,
+      is_active: !!Number(is_active),
+    },
   });
 });
 
